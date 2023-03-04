@@ -24,7 +24,7 @@ const Search = ({onSearch, ...props}) => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         style={styles.searchInput}
-        placeholderTextColor={color.dark}
+        placeholderTextColor={color.gray}
         onChangeText={key => onSearch(key)}
         {...props}
       />

@@ -3,17 +3,14 @@ import React from 'react';
 import {List} from '../atoms';
 import {color, func} from '../../helpers';
 
-const ListApproval = (props, onPressList) => {
-  const {data} = props;
-
-  //   const onPressList = ({item})
+const ListApproval = ({data, onPressList}) => {
   return (
     <>
       <FlatList
         data={data}
         renderItem={({item}) => (
           <List
-            onPress={() => onPressList({item})}
+            onPress={() => onPressList(item)}
             container={true}
             iconLeft="note-text-outline"
             title={`${item.employeeName} (${item.employeeNumber})`}

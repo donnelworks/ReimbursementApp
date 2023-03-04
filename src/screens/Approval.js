@@ -25,6 +25,10 @@ const Approval = ({navigation}) => {
   const handleSearch = key => {
     setSearch(key);
   };
+
+  const handleDetail = item => {
+    navigation.navigate('Detail', item);
+  };
   return (
     <Container>
       {/* Header */}
@@ -33,10 +37,7 @@ const Approval = ({navigation}) => {
       </View>
 
       {/* List */}
-      <ListApproval
-        data={data}
-        onPressList={({item}) => navigation.navigate('Detail', {item})}
-      />
+      <ListApproval data={data} onPressList={item => handleDetail(item)} />
     </Container>
   );
 };
