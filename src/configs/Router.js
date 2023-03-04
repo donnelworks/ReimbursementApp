@@ -20,7 +20,7 @@ const Router = () => {
       <Stack.Screen
         name="Detail"
         component={Detail}
-        options={{title: 'Approval Details'}}
+        options={{title: 'Approval Details', headerShadowVisible: false}}
       />
     </Stack.Navigator>
   );

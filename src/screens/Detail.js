@@ -1,11 +1,18 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 import {Button, Container, Gap} from '../components/atoms';
-import {color, font, func} from '../helpers';
+import {api, color, font, func} from '../helpers';
+import axios from 'axios';
 
 const Detail = ({navigation, route}) => {
-  const onUpdate = () => {
-    navigation.goBack();
+  const onUpdate = (id, status) => {
+    axios
+      .patch(`${api.baseurl}employees/${id}`, {
+        status: status,
+      })
+      .then(res => {
+        navigation.goBack();
+      });
   };
   const {
     id,
@@ -64,7 +71,7 @@ const Detail = ({navigation, route}) => {
                 : 'Rejected'}
             </Text>
           </View>
-          <View style={styles.detailItemDesc}>
+          <View>
             <Text style={[styles.textDetailItem, {fontFamily: font.bold}]}>
               Description:
             </Text>
@@ -73,21 +80,32 @@ const Detail = ({navigation, route}) => {
             </Text>
           </View>
         </View>
-
-        <View style={styles.buttonWrapper}>
-          <Button
-            bgColor={color.light}
-            textColor={color.gray}
-            onPress={() => onUpdate(id, status)}>
-            Reject
-          </Button>
-          <Button
-            bgColor={color.secondary}
-            textColor={color.white}
-            onPress={() => onUpdate(id, status)}>
-            Approve
-          </Button>
-        </View>
+        <Gap height={20} />
+        {status == 0 ? (
+          <View style={styles.buttonWrapper}>
+            <Button
+              bgColor={color.softSecondary}
+              textColor={color.secondary}
+              onPress={() => onUpdate(id, 2)}>
+              Reject
+            </Button>
+            <Button
+              bgColor={color.primary}
+              textColor={color.white}
+              onPress={() => onUpdate(id, 1)}>
+              Approve
+            </Button>
+          </View>
+        ) : (
+          <View style={styles.buttonWrapperCancel}>
+            <Button
+              bgColor={color.light}
+              textColor={color.gray}
+              onPress={() => onUpdate(id, 0)}>
+              Cancel
+            </Button>
+          </View>
+        )}
       </ScrollView>
     </Container>
   );
@@ -101,7 +119,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: color.softSecondary,
   },
   detailWrapper: {
     paddingHorizontal: 20,
@@ -117,6 +134,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  buttonWrapperCancel: {
+    paddingHorizontal: 20,
   },
   detailItemDesc: {
     borderBottomWidth: 1,

@@ -1,9 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Container, List} from '../components/atoms';
 import {HeaderApproval, ListApproval} from '../components/molecules';
-import {color} from '../helpers';
-import {getData} from '../data';
+import {api, color} from '../helpers';
+import {useFocusEffect} from '@react-navigation/native';
+import axios from 'axios';
 
 const Approval = ({navigation}) => {
   const [search, setSearch] = useState('');
@@ -14,12 +15,16 @@ const Approval = ({navigation}) => {
   );
 
   // Init
-  useEffect(() => {
-    loadData();
-  }, [search]);
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, []),
+  );
 
   const loadData = () => {
-    setEmployees(getData());
+    axios.get(`${api.baseurl}employees`).then(res => {
+      setEmployees(res?.data ?? []);
+    });
   };
 
   const handleSearch = key => {

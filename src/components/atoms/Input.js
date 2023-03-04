@@ -57,7 +57,7 @@ const Input = ({
         ? color.white
         : color.light,
     paddingHorizontal: 5,
-    color: focus ? color.primary : color.dark,
+    color: focus ? color.primary : color.gray,
     position: 'absolute',
     left: 5,
     top: animation.interpolate({
