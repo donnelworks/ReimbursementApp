@@ -26,6 +26,7 @@ const FormLogin = ({onSubmit}) => {
         label="Username"
         value={form.username}
         iconLeft="account-outline"
+        autoCapitalize="none"
         onChangeText={val => changeText(val, 'username')}
       />
       <Gap height={20} />

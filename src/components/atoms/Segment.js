@@ -1,9 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  ScrollView,
+  Pressable,
+} from 'react-native';
 import Gap from './Gap';
 import {color, font} from '../../helpers';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Segment = ({label, dataSegment, selectedValue, onChangeValue}) => {
+const Segment = ({
+  label,
+  dataSegment,
+  selectedValue,
+  onChangeValue,
+  onSort,
+}) => {
   const [value, setValue] = useState('');
 
   useEffect(() => {
@@ -17,16 +31,23 @@ const Segment = ({label, dataSegment, selectedValue, onChangeValue}) => {
     setValue(val);
   };
 
-  const pilihData = val => {
+  const changeValue = val => {
     onChangeValue(val);
     setValue(val);
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.outerWrapper}>
       {label && <Text style={styles.textLabel}>{label}</Text>}
 
-      <View style={styles.segmentWrapper}>
+      <Pressable style={styles.sort} onPress={() => onSort()}>
+        <Icon name="sort" size={23} color={color.gray} />
+      </Pressable>
+
+      <ScrollView
+        horizontal
+        contentContainerStyle={styles.segmentWrapper}
+        showsHorizontalScrollIndicator={false}>
         {dataSegment.map((data, i) => {
           return (
             <SegmentOption
@@ -34,11 +55,11 @@ const Segment = ({label, dataSegment, selectedValue, onChangeValue}) => {
               label={data.label}
               value={data.value}
               selected={value}
-              onPress={() => pilihData(data.value)}
+              onPress={() => changeValue(data.value)}
             />
           );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -75,13 +96,15 @@ const SegmentOption = ({label, value, selected, ...props}) => {
 export default Segment;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginTop: 20,
+  outerWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 20,
   },
   segmentWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   textLabel: {
     fontFamily: font.medium,
@@ -90,5 +113,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     position: 'relative',
     left: 5,
+  },
+  sort: {
+    height: 40,
+    paddingHorizontal: 10,
+    // borderRadius: 10,
+    // borderColor: Color.primary,
+    // borderColor: color.gray,
+    // borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 5,
   },
 });

@@ -150,6 +150,6 @@ const styles = StyleSheet.create({
   },
   textDetailItem: {
     fontSize: 14,
-    color: color.dark,
+    color: color.gray,
   },
 });
